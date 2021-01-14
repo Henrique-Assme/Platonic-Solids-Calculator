@@ -1,0 +1,129 @@
+package com.example.poligonos3d;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText lados, nome, arestas, vertices, faces, area, volume, medida;
+    Button calcular, limpar;
+    Integer lado, aresta, vertice, face, n, a;
+    Double Area, Volume;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        lados = findViewById(R.id.editextLados);
+        nome = findViewById(R.id.editextNome);
+        arestas = findViewById(R.id.editextArestas);
+        vertices = findViewById(R.id.editextVertices);
+        faces = findViewById(R.id.editextFaces);
+        area = findViewById(R.id.editextArea);
+        volume = findViewById(R.id.editextVolume);
+        calcular = findViewById(R.id.btnCalcular);
+        limpar = findViewById(R.id.btnLimpar);
+        medida = findViewById(R.id.editextLado);
+        nome = findViewById(R.id.editextNome);
+        a = 0;
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(TextUtils.isEmpty(lados.getText().toString()) || TextUtils.isEmpty(medida.getText().toString())){
+                    Toast.makeText(MainActivity.this, "Preencha todos os campos necessários!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    lado = Integer.parseInt(lados.getText().toString());
+                    n = Integer.parseInt(medida.getText().toString());
+                    dados(n, lado);
+                    if (a == 0) {
+                        arestas.setText(aresta.toString());
+                        vertices.setText(vertice.toString());
+                        faces.setText(face.toString());
+                        area.setText(Math.round(Area) / 100.0 + "u.a.");
+                        volume.setText(Math.round(Volume) / 100.0  + "u.v.");
+                    } else {
+                        Toast.makeText(MainActivity.this, "Não é possível fazer os cálculos!", Toast.LENGTH_SHORT).show();
+                        a = 0;
+                    }
+                }
+            }
+        });
+
+        limpar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lados.setText("");
+                medida.setText("");
+                nome.setText("");
+                arestas.setText("");
+                vertices.setText("");
+                faces.setText("");
+                area.setText("");
+                volume.setText("");
+            }
+        });
+    }
+
+    public void dados (int l, int n){
+        if(n == 4) {
+            nome.setText("Tetraedro");
+            face = 4;
+            vertice = 4;
+            aresta = 6;
+            Area = 1.73 * l * l;
+            Volume = l * l * l * 1.41 / 12;
+            Area = Area*100.0;
+            Volume = Volume*100.0;
+        }
+        else if(n == 6) {
+            nome.setText("Hexaedro");
+            face = 6;
+            vertice = 8;
+            aresta = 12;
+            Area = 6.0 * l * l;
+            Volume = l * l * l * 1.0;
+            Area = Area*100.0;
+            Volume = Volume*100.0;
+        }
+        else if(n == 8) {
+            nome.setText("Octaedro");
+            face = 8;
+            vertice = 6;
+            aresta = 12;
+            Area = 2.0 * 1.73 * l * l;
+            Volume = l * l * l * 1.41 / 3;
+            Area = Area*100.0;
+            Volume = Volume*100.0;
+        }
+        else if(n == 12) {
+            nome.setText("Dodecaedro");
+            face = 12;
+            vertice = 20;
+            aresta = 30;
+            Area = 3.0 * l * l * 6.88;
+            Volume = l * l * l * (15 + 7.0*2.24) / 4;
+            Area = Area*100.0;
+            Volume = Volume*100.0;
+        }
+        else if(n == 20) {
+            nome.setText("Icosaedro");
+            face = 20;
+            vertice = 12;
+            aresta = 30;
+            Area = 1.73 * l * l * 5.0;
+            Volume = l * l * l * 5.0 * 5.24 / 12;
+            Area = Area*100.0;
+            Volume = Volume*100.0;
+        }
+        else{
+            a = 1;
+        }
+    }
+}
